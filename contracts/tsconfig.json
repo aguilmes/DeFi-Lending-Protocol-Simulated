@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2020",                   // JS moderno: perfecto para la mayoría de tools actuales
+    "module": "commonjs",                 // Lo que espera Hardhat
+    "strict": true,                       // Mejor seguridad y ayuda del tipado TS
+    "esModuleInterop": true,              // Permite imports cómodos de paquetes JS comunes
+    "forceConsistentCasingInFileNames": true, // Evita problemas de mayúsculas/minúsculas (cruza SOs)
+    "skipLibCheck": true                  // Ignora errores en los archivos de tipos externos
+  },
+  "include": [
+    "test",
+    "scripts",
+    "typechain"
+  ],
+  "exclude": [
+    "node_modules",
+    "artifacts",
+    "cache"
+  ]
+}
