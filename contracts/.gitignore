@@ -1,0 +1,30 @@
+# Node.js dependencies
+node_modules/
+
+# Dependencias lockfile
+package-lock.json
+yarn.lock
+
+# Salidas de compilación
+artifacts/
+cache/
+typechain/
+coverage/
+dist/
+build/
+
+# Archivos temporales
+.DS_Store
+.env
+.env.*
+
+# Salidas de Hardhat/solidity-coverage
+coverage.json
+coverage/
+
+# Salidas de Ignition (si usás Hardhat Ignition)
+deployments/
+ignition/deployments/
+
+# Otros
+*.tsbuildinfo
