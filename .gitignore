@@ -2,3 +2,11 @@ node_modules/
 package-lock.json
 .DS_Store
 dist/
+
+# Ignorar settings de VSCode
+.vscode/
+*.code-workspace
+
+# Si no necesitas un tsconfig en el root
+/tsconfig.json
+

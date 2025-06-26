@@ -1,16 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es2020",                   // JS moderno: perfecto para la mayoría de tools actuales
-    "module": "commonjs",                 // Lo que espera Hardhat
-    "strict": true,                       // Mejor seguridad y ayuda del tipado TS
-    "esModuleInterop": true,              // Permite imports cómodos de paquetes JS comunes
-    "forceConsistentCasingInFileNames": true, // Evita problemas de mayúsculas/minúsculas (cruza SOs)
-    "skipLibCheck": true                  // Ignora errores en los archivos de tipos externos
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "typechain-types": ["../typechain-types"]
+    },
+    "types": [
+      "hardhat",    // para reconocer import { ethers } from "hardhat"
+      "mocha",      // para describe/it
+      "chai",       // para expect
+      "node"        // si usas globals de Node
+    ]
   },
   "include": [
-    "test",
-    "scripts",
-    "typechain"
+    "test/**/*.ts",
+    "scripts/**/*.ts",
+    "../typechain-types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

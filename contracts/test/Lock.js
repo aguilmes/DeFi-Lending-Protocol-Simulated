@@ -1,9 +1,10 @@
 const {
   time,
   loadFixture,
-} = require("@nomicfoundation/hardhat-toolbox/network-helpers");
+} = require("@nomicfoundation/hardhat-network-helpers");
 const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
+
 
 describe("Lock", function () {
   // We define a fixture to reuse the same setup in every test.
@@ -21,6 +22,8 @@ describe("Lock", function () {
 
     const Lock = await ethers.getContractFactory("Lock");
     const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+    // ──> Espera a que la tx de deploy se mine antes de usar lock.address / lock.owner()
+    await lock.deployed();
 
     return { lock, unlockTime, lockedAmount, owner, otherAccount };
   }
@@ -35,6 +38,7 @@ describe("Lock", function () {
     it("Should set the right owner", async function () {
       const { lock, owner } = await loadFixture(deployOneYearLockFixture);
 
+      // ──> comparamos dos cadenas (string), nunca Signer vs Signer
       expect(await lock.owner()).to.equal(owner.address);
     });
 
@@ -43,15 +47,16 @@ describe("Lock", function () {
         deployOneYearLockFixture
       );
 
-      expect(await ethers.provider.getBalance(lock.target)).to.equal(
-        lockedAmount
-      );
+      // ──> lock.target NO existe; debe usarse lock.address
+      expect(await ethers.provider.getBalance(lock.address)).to.equal(lockedAmount);
     });
 
     it("Should fail if the unlockTime is not in the future", async function () {
       // We don't use the fixture here because we want a different deployment
       const latestTime = await time.latest();
       const Lock = await ethers.getContractFactory("Lock");
+      // ──> para evitar bugs de "AbiCoder is not a constructor", 
+      //    puedes actualizar el matcher (ver más abajo)
       await expect(Lock.deploy(latestTime, { value: 1 })).to.be.revertedWith(
         "Unlock time should be in the future"
       );
@@ -77,9 +82,8 @@ describe("Lock", function () {
         await time.increaseTo(unlockTime);
 
         // We use lock.connect() to send a transaction from another account
-        await expect(lock.connect(otherAccount).withdraw()).to.be.revertedWith(
-          "You aren't the owner"
-        );
+        await expect(lock.connect(otherAccount).withdraw())
+          .to.be.revertedWith("You aren't the owner");
       });
 
       it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
@@ -116,10 +120,11 @@ describe("Lock", function () {
 
         await time.increaseTo(unlockTime);
 
-        await expect(lock.withdraw()).to.changeEtherBalances(
-          [owner, lock],
-          [lockedAmount, -lockedAmount]
-        );
+        await expect(lock.withdraw())
+          .to.changeEtherBalances(
+            [owner, lock],
+            [lockedAmount, -lockedAmount]
+          );
       });
     });
   });
