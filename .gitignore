@@ -10,3 +10,4 @@ dist/
 # Si no necesitas un tsconfig en el root
 /tsconfig.json
 
+.env
