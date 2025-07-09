@@ -17,6 +17,7 @@ contract LendingPool {
         token = MockERC20(_token);
     }
 
+    // Depositar tokens al pool
     function deposit(uint256 amount) external {
         require(amount > 0, "Deposit amount must be > 0");
         require(token.transferFrom(msg.sender, address(this), amount), "Transfer failed");
@@ -24,6 +25,7 @@ contract LendingPool {
         emit Deposit(msg.sender, amount); // 🚩 Emite el evento
     }
 
+    // Pedir prestado tokens (básico, sin colateral real por ahora)
     function borrow(uint256 amount) external {
         require(amount > 0, "Borrow amount must be > 0");
         require(amount <= deposits[msg.sender], "Borrow limit exceeded");
@@ -34,6 +36,7 @@ contract LendingPool {
         emit Borrow(msg.sender, amount); // 🚩 Emite el evento
     }
 
+    // Factor de salud simple: depósito / deuda (x100 para evitar decimales)
     function getHealthFactor(address user) public view returns (uint256) {
         if (borrows[user] == 0) {
             return type(uint256).max;
