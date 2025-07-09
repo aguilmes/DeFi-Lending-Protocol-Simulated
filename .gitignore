@@ -1,13 +1,39 @@
+# Node.js dependencies en cualquier subcarpeta
 node_modules/
-package-lock.json
-.DS_Store
-dist/
 
-# Ignorar settings de VSCode
+# Lockfiles de dependencias
+package-lock.json
+yarn.lock
+
+# Build outputs de cualquier subcarpeta (incluyendo contracts)
+dist/
+build/
+artifacts/
+cache/
+coverage/
+coverage.json
+
+# Typechain outputs
+typechain/
+typechain-types/
+
+# Settings y workspaces de VSCode
 .vscode/
 *.code-workspace
 
-# Si no necesitas un tsconfig en el root
-/tsconfig.json
+# TypeScript build info
+*.tsbuildinfo
 
+# Archivos temporales comunes
+.DS_Store
+
+# Entornos y configuraciones sensibles
 .env
+.env.*
+
+# Hardhat Ignition outputs
+deployments/
+ignition/deployments/
+
+# tsconfig en el root si no lo necesitas trackeado
+/tsconfig.json
