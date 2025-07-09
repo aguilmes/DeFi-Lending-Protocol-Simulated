@@ -23,7 +23,7 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-} from "./common";
+} from "../common";
 
 export interface LockInterface extends utils.Interface {
   functions: {

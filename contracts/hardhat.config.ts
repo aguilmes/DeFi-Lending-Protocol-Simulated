@@ -23,6 +23,12 @@ const config: HardhatUserConfig = {
   // si ya tienes typechain en config no hace falta repetirlo,
   // pero podrías añadir:
   // typechain: { outDir: "typechain-types", target: "ethers-v5" },
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts"
+  }  
 };
 
 
